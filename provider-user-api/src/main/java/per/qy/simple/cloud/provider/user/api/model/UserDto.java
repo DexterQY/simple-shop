@@ -1,15 +1,14 @@
-package per.qy.simple.cloud.provider.user.api.entity;
+package per.qy.simple.cloud.provider.user.api.model;
 
 import lombok.Data;
 import per.qy.simple.cloud.common.base.entity.BaseEntity;
 
 @Data
-public class User extends BaseEntity {
+public class UserDto {
 
+    private String id;
     private String username;
-    private String password;
     private String phone;
     private String email;
     private String description;
-    private int state;
 }

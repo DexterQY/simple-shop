@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: provider-user
+  main:
+    allow-bean-definition-overriding: true
+
+server:
+  port: 16001
+
+dubbo:
+  scan:
+    base-package: per.qy.simple.cloud.provider.user.service
+  protocol:
+    name: dubbo
+    port: -1
+    serialization: kryo
+  registry:
+    address: nacos://127.0.0.1
+    port: 16000
