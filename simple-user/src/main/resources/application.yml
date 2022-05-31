@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    url: jdbc:mariadb://${simple.datasource.ip}:${simple.datasource.port}/${simple.datasource.database}?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+    username: ${simple.datasource.username}
+    password: ${simple.datasource.password}
+    driver-class-name: org.mariadb.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  # resultType 省略包名
+  type-aliases-package: per.qy.simple.user.entity
+  configuration:
+    # 下划线转驼峰配置
+    map-underscore-to-camel-case: true
+    # 启用懒加载
+    lazy-loading-enabled: true
+
+# 开放所有监控端点可访问
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    per:
+      qy:
+        simple:
+          user:
+            mapper: debug

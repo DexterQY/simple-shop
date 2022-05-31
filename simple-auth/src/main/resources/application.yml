@@ -1,0 +1,9 @@
+# 开放所有监控端点可访问
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

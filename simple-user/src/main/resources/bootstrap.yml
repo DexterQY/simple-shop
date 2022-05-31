@@ -1,0 +1,16 @@
+server:
+  port: 8082
+spring:
+  profiles:
+    active: dev
+  application:
+    name: simple-user
+  cloud:
+    nacos:
+      config:
+        file-extension: yml
+        group: DEFAULT_GROUP
+        extension-configs:
+          - data-id: common.yml
+            group: DEFAULT_GROUP
+            refresh: true

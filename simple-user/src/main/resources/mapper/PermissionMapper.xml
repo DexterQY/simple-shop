@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="per.qy.simple.user.mapper.PermissionMapper">
+  <resultMap id="BaseResultMap" type="per.qy.simple.user.entity.Permission">
+    <!--@mbg.generated-->
+    <!--@Table simple_permission-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="match_path" jdbcType="VARCHAR" property="matchPath" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+    <result column="seq" jdbcType="INTEGER" property="seq" />
+    <result column="depth" jdbcType="TINYINT" property="depth" />
+    <result column="path" jdbcType="VARCHAR" property="path" />
+    <result column="create_user" jdbcType="BIGINT" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user" jdbcType="BIGINT" property="updateUser" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, code, `name`, match_path, `status`, parent_id, seq, `depth`, `path`, create_user, 
+    create_time, update_user, update_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from simple_permission
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from simple_permission
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="per.qy.simple.user.entity.Permission">
+    <!--@mbg.generated-->
+    insert into simple_permission (id, code, `name`, 
+      match_path, `status`, parent_id, 
+      seq, `depth`, `path`, create_user, 
+      create_time, update_user, update_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{matchPath,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{parentId,jdbcType=BIGINT}, 
+      #{seq,jdbcType=INTEGER}, #{depth,jdbcType=TINYINT}, #{path,jdbcType=VARCHAR}, #{createUser,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="per.qy.simple.user.entity.Permission">
+    <!--@mbg.generated-->
+    insert into simple_permission
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="code != null and code != ''">
+        code,
+      </if>
+      <if test="name != null and name != ''">
+        `name`,
+      </if>
+      <if test="matchPath != null and matchPath != ''">
+        match_path,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
+      <if test="seq != null">
+        seq,
+      </if>
+      <if test="depth != null">
+        `depth`,
+      </if>
+      <if test="path != null and path != ''">
+        `path`,
+      </if>
+      <if test="createUser != null">
+        create_user,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUser != null">
+        update_user,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="code != null and code != ''">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null and name != ''">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="matchPath != null and matchPath != ''">
+        #{matchPath,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="seq != null">
+        #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="depth != null">
+        #{depth,jdbcType=TINYINT},
+      </if>
+      <if test="path != null and path != ''">
+        #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        #{updateUser,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="per.qy.simple.user.entity.Permission">
+    <!--@mbg.generated-->
+    update simple_permission
+    <set>
+      <if test="code != null and code != ''">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null and name != ''">
+        `name` = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="matchPath != null and matchPath != ''">
+        match_path = #{matchPath,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="seq != null">
+        seq = #{seq,jdbcType=INTEGER},
+      </if>
+      <if test="depth != null">
+        `depth` = #{depth,jdbcType=TINYINT},
+      </if>
+      <if test="path != null and path != ''">
+        `path` = #{path,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null">
+        update_user = #{updateUser,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="per.qy.simple.user.entity.Permission">
+    <!--@mbg.generated-->
+    update simple_permission
+    set code = #{code,jdbcType=VARCHAR},
+      `name` = #{name,jdbcType=VARCHAR},
+      match_path = #{matchPath,jdbcType=VARCHAR},
+      `status` = #{status,jdbcType=TINYINT},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      seq = #{seq,jdbcType=INTEGER},
+      `depth` = #{depth,jdbcType=TINYINT},
+      `path` = #{path,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user = #{updateUser,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="batchInsert" parameterType="map">
+    <!--@mbg.generated-->
+    insert into simple_permission
+    (id, code, `name`, match_path, `status`, parent_id, seq, `depth`, `path`, create_user, 
+      create_time, update_user, update_time)
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.code,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, 
+        #{item.matchPath,jdbcType=VARCHAR}, #{item.status,jdbcType=TINYINT}, #{item.parentId,jdbcType=BIGINT}, 
+        #{item.seq,jdbcType=INTEGER}, #{item.depth,jdbcType=TINYINT}, #{item.path,jdbcType=VARCHAR}, 
+        #{item.createUser,jdbcType=BIGINT}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUser,jdbcType=BIGINT}, 
+        #{item.updateTime,jdbcType=TIMESTAMP})
+    </foreach>
+  </insert>
+
+  <select id="listJoinRole" resultType="per.qy.simple.user.model.RolePermissionDto">
+    select r.id role_id,r.code role_code,p.id permission_id,p.code permission_code,
+    p.match_path permission_match_path from simple_permission p
+    join simple_role_permission rp on p.id=rp.permission_id
+    join simple_role r on rp.role_id=r.id
+    where p.status=1 and r.status=1
+  </select>
+</mapper>
