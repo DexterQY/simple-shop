@@ -31,8 +31,9 @@ import per.qy.simple.gateway.manager.AuthorizationManager;
 import per.qy.simple.gateway.manager.RedisAuthenticationManager;
 import reactor.core.publisher.Mono;
 
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
+import java.util.List;
 
 /**
  * 资源服务器配置
@@ -80,6 +81,7 @@ public class ResourceServerConfig {
 
     private ServerWebExchangeMatcher requiresAuthenticationMatcher() {
         return exchange -> {
+            // 拒绝访问和忽略认证的请求不做认证校验
             String path = exchange.getRequest().getPath().value();
             PathMatcher pathMatcher = new AntPathMatcher();
             for (String matchPath : securityPathConfig.getDenyPaths()) {
@@ -99,8 +101,9 @@ public class ResourceServerConfig {
     private ServerAuthenticationSuccessHandler serverAuthenticationSuccessHandler() {
         return (webFilterExchange, authentication) -> {
             ServerWebExchange exchange = webFilterExchange.getExchange();
+            // 认证成功将当前登录用户信息设置到请求头
             String userInfo = JSONUtil.toJsonStr(authentication.getPrincipal());
-            userInfo = Base64.getEncoder().encodeToString(userInfo.getBytes(StandardCharsets.UTF_8));
+            userInfo = URLEncoder.encode(userInfo, StandardCharsets.UTF_8);
             ServerHttpRequest request = exchange.getRequest().mutate()
                     .header(SimpleConstant.HEADER_USER_INFO_KEY, userInfo).build();
             exchange = exchange.mutate().request(request).build();
@@ -111,10 +114,19 @@ public class ResourceServerConfig {
     private ServerAuthenticationFailureHandler serverAuthenticationFailureHandler() {
         return (webFilterExchange, exception) -> {
             ServerHttpResponse response = webFilterExchange.getExchange().getResponse();
+            // 认证失败响应封装
             response.setStatusCode(HttpStatus.OK);
             response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-            String body = JSONUtil.toJsonStr(ResponseVo.fail(ExceptionCode.UNAUTHORIZED,
-                    exception.getMessage()));
+
+            ResponseVo vo = ResponseVo.fail(ExceptionCode.UNAUTHORIZED, exception.getMessage());
+            // 这里获取不到requestId，security的filter优先于gateway的GlobalFilter执行，暂无办法调整
+            List<String> requestIds = webFilterExchange.getExchange().getRequest()
+                    .getHeaders().get(SimpleConstant.HEADER_REQUEST_ID_KEY);
+            if (requestIds != null && !requestIds.isEmpty()) {
+                vo.setRequestId(requestIds.get(0));
+            }
+
+            String body = JSONUtil.toJsonStr(vo);
             DataBuffer buffer = response.bufferFactory().wrap(body.getBytes(StandardCharsets.UTF_8));
             return response.writeWith(Mono.just(buffer));
         };
@@ -125,7 +137,15 @@ public class ResourceServerConfig {
             ServerHttpResponse response = exchange.getResponse();
             response.setStatusCode(HttpStatus.OK);
             response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-            String body = JSONUtil.toJsonStr(ResponseVo.fail(ExceptionCode.UNAUTHORIZED));
+
+            ResponseVo vo = ResponseVo.fail(ExceptionCode.UNAUTHORIZED);
+            List<String> requestIds = exchange.getRequest()
+                    .getHeaders().get(SimpleConstant.HEADER_REQUEST_ID_KEY);
+            if (requestIds != null && !requestIds.isEmpty()) {
+                vo.setRequestId(requestIds.get(0));
+            }
+
+            String body = JSONUtil.toJsonStr(vo);
             DataBuffer buffer = response.bufferFactory().wrap(body.getBytes(StandardCharsets.UTF_8));
             return response.writeWith(Mono.just(buffer));
         };
@@ -136,7 +156,15 @@ public class ResourceServerConfig {
             ServerHttpResponse response = exchange.getResponse();
             response.setStatusCode(HttpStatus.OK);
             response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-            String body = JSONUtil.toJsonStr(ResponseVo.fail(ExceptionCode.PERMISSION_DENIED));
+
+            ResponseVo vo = ResponseVo.fail(ExceptionCode.PERMISSION_DENIED);
+            List<String> requestIds = exchange.getRequest()
+                    .getHeaders().get(SimpleConstant.HEADER_REQUEST_ID_KEY);
+            if (requestIds != null && !requestIds.isEmpty()) {
+                vo.setRequestId(requestIds.get(0));
+            }
+
+            String body = JSONUtil.toJsonStr(vo);
             DataBuffer buffer = response.bufferFactory().wrap(body.getBytes(StandardCharsets.UTF_8));
             return response.writeWith(Mono.just(buffer));
         };

@@ -13,7 +13,7 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import per.qy.simple.common.core.interceptor.TraceInterceptor;
+import per.qy.simple.common.core.interceptor.RequestIdInterceptor;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -31,7 +31,7 @@ public class DefaultWebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // 日志链路追踪拦截器
-        registry.addInterceptor(new TraceInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(new RequestIdInterceptor()).addPathPatterns("/**");
     }
 
     /**

@@ -1,4 +1,4 @@
-package per.qy.simple.gateway.filter;
+package per.qy.simple.gateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

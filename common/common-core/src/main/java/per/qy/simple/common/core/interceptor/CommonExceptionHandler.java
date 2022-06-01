@@ -12,6 +12,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import per.qy.simple.common.base.constant.SimpleConstant;
 import per.qy.simple.common.base.exception.BusinessException;
 import per.qy.simple.common.base.exception.ExceptionCode;
 import per.qy.simple.common.base.model.ResponseVo;
@@ -41,6 +42,7 @@ public class CommonExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseVo commonErrorHandler(HttpServletRequest request, Exception e) {
         ResponseVo vo = ResponseVo.fail(ExceptionCode.SERVER_ERROR);
+        vo.setRequestId(request.getHeader(SimpleConstant.HEADER_REQUEST_ID_KEY));
         logError(request, vo, e);
         return vo;
     }
@@ -57,6 +59,7 @@ public class CommonExceptionHandler {
             HttpServletRequest request, MissingServletRequestParameterException e) {
         ResponseVo vo = ResponseVo.fail(ExceptionCode.ILLEGAL_PARAM,
                 "'" + e.getParameterName() + "'不能为空");
+        vo.setRequestId(request.getHeader(SimpleConstant.HEADER_REQUEST_ID_KEY));
         logError(request, vo, e);
         return vo;
     }
@@ -75,6 +78,7 @@ public class CommonExceptionHandler {
     public ResponseVo handleMethodArgumentTypeMismatchException(
             HttpServletRequest request, Exception e) {
         ResponseVo vo = ResponseVo.fail(ExceptionCode.ILLEGAL_PARAM, e.getMessage());
+        vo.setRequestId(request.getHeader(SimpleConstant.HEADER_REQUEST_ID_KEY));
         logError(request, vo, e);
         return vo;
     }
@@ -95,6 +99,7 @@ public class CommonExceptionHandler {
             appendObjectErrorData(error, sb);
         }
         ResponseVo vo = ResponseVo.fail(ExceptionCode.ILLEGAL_PARAM, sb.toString());
+        vo.setRequestId(request.getHeader(SimpleConstant.HEADER_REQUEST_ID_KEY));
         logError(request, vo, e);
         return vo;
     }
@@ -114,6 +119,7 @@ public class CommonExceptionHandler {
             appendObjectErrorData(error, sb);
         }
         ResponseVo vo = ResponseVo.fail(ExceptionCode.ILLEGAL_PARAM, sb.toString());
+        vo.setRequestId(request.getHeader(SimpleConstant.HEADER_REQUEST_ID_KEY));
         logError(request, vo, e);
         return vo;
     }
@@ -129,6 +135,7 @@ public class CommonExceptionHandler {
     public ResponseVo handleRequestMethodException(
             HttpServletRequest request, HttpRequestMethodNotSupportedException e) {
         ResponseVo vo = ResponseVo.fail(ExceptionCode.ILLEGAL_PARAM, "请求方法不支持");
+        vo.setRequestId(request.getHeader(SimpleConstant.HEADER_REQUEST_ID_KEY));
         logError(request, vo, e);
         return vo;
     }
@@ -143,6 +150,7 @@ public class CommonExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ResponseVo businessExceptionHandler(HttpServletRequest request, BusinessException e) {
         ResponseVo vo = ResponseVo.fail(e.getCode(), e.getMessage());
+        vo.setRequestId(request.getHeader(SimpleConstant.HEADER_REQUEST_ID_KEY));
         logError(request, vo, e);
         return vo;
     }

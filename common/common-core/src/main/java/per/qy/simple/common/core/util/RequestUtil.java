@@ -11,8 +11,8 @@ import per.qy.simple.common.base.exception.ExceptionCode;
 import per.qy.simple.common.base.model.UserDto;
 
 import javax.servlet.http.HttpServletRequest;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
 /**
  * RequestUtil
@@ -47,7 +47,7 @@ public class RequestUtil {
             String userInfo = request.getHeader(SimpleConstant.HEADER_USER_INFO_KEY);
             if (StrUtil.isNotEmpty(userInfo)) {
                 try {
-                    userInfo = new String(Base64.getDecoder().decode(userInfo), StandardCharsets.UTF_8);
+                    userInfo = URLDecoder.decode(userInfo, StandardCharsets.UTF_8);
                     UserDto userDto = JSONUtil.toBean(userInfo, UserDto.class);
                     if (userDto.getId() != null) {
                         return userDto;

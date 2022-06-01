@@ -7,6 +7,7 @@ import per.qy.simple.auth.constant.AuthConstant;
 import per.qy.simple.auth.constant.AuthReqThreadLocal;
 import per.qy.simple.auth.model.AuthDto;
 import per.qy.simple.auth.service.IAuthService;
+import per.qy.simple.common.base.constant.SimpleConstant;
 import per.qy.simple.common.base.model.ResponseVo;
 
 import javax.servlet.Filter;
@@ -60,6 +61,7 @@ public class AuthFilter implements Filter {
                 }
                 if (!vo.succeeded()) {
                     // 校验不通过
+                    vo.setRequestId(request.getHeader(SimpleConstant.HEADER_REQUEST_ID_KEY));
                     HttpServletResponse response = (HttpServletResponse) servletResponse;
                     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                     try (ServletOutputStream outputStream = response.getOutputStream()) {

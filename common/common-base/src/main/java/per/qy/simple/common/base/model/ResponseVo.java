@@ -15,6 +15,8 @@ public class ResponseVo {
     private static final int SUCCESS_CODE = 0;
     private static final ResponseVo SUCCESS_VO = new ResponseVo();
 
+    /** requestId */
+    private String requestId;
     /** 状态码 */
     private int code = SUCCESS_CODE;
     /** 错误信息 */

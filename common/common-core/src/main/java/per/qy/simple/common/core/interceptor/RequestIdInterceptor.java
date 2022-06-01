@@ -4,6 +4,7 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import org.slf4j.MDC;
 import org.springframework.web.servlet.HandlerInterceptor;
+import per.qy.simple.common.base.constant.SimpleConstant;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,15 +15,15 @@ import javax.servlet.http.HttpServletResponse;
  * @author : QY
  * @date : 2022/5/27
  */
-public class TraceInterceptor implements HandlerInterceptor {
+public class RequestIdInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        String traceId = request.getHeader("x-traceId-header");
-        if (StrUtil.isBlank(traceId)) {
-            traceId = IdUtil.fastSimpleUUID();
+        String requestId = request.getHeader(SimpleConstant.HEADER_REQUEST_ID_KEY);
+        if (StrUtil.isBlank(requestId)) {
+            requestId = IdUtil.fastSimpleUUID();
         }
-        MDC.put("traceId", traceId);
+        MDC.put(SimpleConstant.HEADER_REQUEST_ID_KEY, requestId);
         return true;
     }
 }
