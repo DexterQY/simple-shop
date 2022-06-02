@@ -15,6 +15,7 @@
         <module>simple-auth</module>
         <module>simple-gateway</module>
         <module>simple-user</module>
+        <module>simple-monitor</module>
     </modules>
 
     <properties>
@@ -74,6 +75,12 @@
                 <version>2.6.7</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>2.6.7</version>
             </dependency>
 
             <dependency>
