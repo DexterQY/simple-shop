@@ -5,11 +5,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import per.qy.simple.common.base.constant.SimpleConstant;
 import per.qy.simple.common.base.model.ResponseVo;
-import per.qy.simple.common.core.annotation.BaseResponse;
 
 import java.util.List;
 
@@ -19,8 +19,8 @@ import java.util.List;
  * @author : QY
  * @date : 2022/5/27
  */
-@RestControllerAdvice(annotations = BaseResponse.class)
-public class BaseResponseControllerAdvice implements ResponseBodyAdvice<Object> {
+@RestControllerAdvice(annotations = RestController.class)
+public class CommonResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {

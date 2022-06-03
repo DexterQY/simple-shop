@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import per.qy.simple.auth.constant.RedisKeyConstant;
 import per.qy.simple.auth.model.CaptchaVo;
-import per.qy.simple.common.core.annotation.BaseResponse;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
@@ -24,7 +23,6 @@ import java.util.concurrent.TimeUnit;
  * @author : QY
  * @date : 2022/5/24
  */
-@BaseResponse
 @RestController
 public class CodeController {
 
