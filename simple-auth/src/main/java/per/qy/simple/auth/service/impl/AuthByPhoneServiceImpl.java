@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 import per.qy.simple.auth.constant.AuthReqThreadLocal;
 import per.qy.simple.auth.constant.AuthTypeEnum;
 import per.qy.simple.auth.constant.RedisKeyConstant;
-import per.qy.simple.auth.feign.UserMicroClient;
-import per.qy.simple.auth.model.AuthDto;
+import per.qy.simple.auth.model.dto.AuthDto;
 import per.qy.simple.auth.service.IAuthService;
 import per.qy.simple.common.base.exception.BusinessException;
 import per.qy.simple.common.base.exception.ExceptionCode;
 import per.qy.simple.common.base.model.ResponseVo;
-import per.qy.simple.common.base.model.UserDto;
+import per.qy.simple.user.client.UserMicroClient;
+import per.qy.simple.user.model.vo.UserVo;
 
 /**
  * 手机短信认证
@@ -51,11 +51,11 @@ public class AuthByPhoneServiceImpl implements IAuthService {
     @Override
     public UserDetails auth() {
         AuthDto authDto = AuthReqThreadLocal.get();
-        UserDto userDto = userMicroClient.getByPhone(authDto.getPhone());
-        if (userDto == null) {
+        UserVo userVo = userMicroClient.getByPhone(authDto.getPhone());
+        if (userVo == null) {
             throw new BusinessException(ExceptionCode.UNAUTHORIZED, "用户不存在");
         }
-        return getUserDetails(userDto);
+        return getUserDetails(userVo);
     }
 
     @Override

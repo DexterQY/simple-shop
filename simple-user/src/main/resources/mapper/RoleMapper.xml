@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="per.qy.simple.user.mapper.RoleMapper">
-  <resultMap id="BaseResultMap" type="per.qy.simple.user.entity.Role">
+  <resultMap id="BaseResultMap" type="per.qy.simple.user.model.entity.Role">
     <!--@mbg.generated-->
     <!--@Table simple_role-->
     <id column="id" jdbcType="BIGINT" property="id" />
@@ -34,7 +34,7 @@
     delete from simple_role
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="per.qy.simple.user.entity.Role">
+  <insert id="insert" parameterType="per.qy.simple.user.model.entity.Role">
     <!--@mbg.generated-->
     insert into simple_role (id, code, `name`, 
       `status`, parent_id, seq, 
@@ -47,7 +47,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="per.qy.simple.user.entity.Role">
+  <insert id="insertSelective" parameterType="per.qy.simple.user.model.entity.Role">
     <!--@mbg.generated-->
     insert into simple_role
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -127,7 +127,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="per.qy.simple.user.entity.Role">
+  <update id="updateByPrimaryKeySelective" parameterType="per.qy.simple.user.model.entity.Role">
     <!--@mbg.generated-->
     update simple_role
     <set>
@@ -167,7 +167,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="per.qy.simple.user.entity.Role">
+  <update id="updateByPrimaryKey" parameterType="per.qy.simple.user.model.entity.Role">
     <!--@mbg.generated-->
     update simple_role
     set code = #{code,jdbcType=VARCHAR},

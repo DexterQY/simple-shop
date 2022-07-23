@@ -16,7 +16,7 @@ public class AuthTest {
 
     @Test
     public void encodePassword() {
-        System.out.println(new BCryptPasswordEncoder().encode("abc"));
+        System.out.println(new BCryptPasswordEncoder().encode("123456"));
     }
 
     @Test

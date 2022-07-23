@@ -105,7 +105,7 @@ public class ResourceServerConfig {
             String userInfo = JSONUtil.toJsonStr(authentication.getPrincipal());
             userInfo = URLEncoder.encode(userInfo, StandardCharsets.UTF_8);
             ServerHttpRequest request = exchange.getRequest().mutate()
-                    .header(SimpleConstant.HEADER_USER_INFO_KEY, userInfo).build();
+                    .header(SimpleConstant.HEADER_CURRENT_USER, userInfo).build();
             exchange = exchange.mutate().request(request).build();
             return webFilterExchange.getChain().filter(exchange);
         };
@@ -121,7 +121,7 @@ public class ResourceServerConfig {
             ResponseVo vo = ResponseVo.fail(ExceptionCode.UNAUTHORIZED, exception.getMessage());
             // 这里获取不到requestId，security的filter优先于gateway的GlobalFilter执行，暂无办法调整
             List<String> requestIds = webFilterExchange.getExchange().getRequest()
-                    .getHeaders().get(SimpleConstant.HEADER_REQUEST_ID_KEY);
+                    .getHeaders().get(SimpleConstant.HEADER_REQUEST_ID);
             if (requestIds != null && !requestIds.isEmpty()) {
                 vo.setRequestId(requestIds.get(0));
             }
@@ -140,7 +140,7 @@ public class ResourceServerConfig {
 
             ResponseVo vo = ResponseVo.fail(ExceptionCode.UNAUTHORIZED);
             List<String> requestIds = exchange.getRequest()
-                    .getHeaders().get(SimpleConstant.HEADER_REQUEST_ID_KEY);
+                    .getHeaders().get(SimpleConstant.HEADER_REQUEST_ID);
             if (requestIds != null && !requestIds.isEmpty()) {
                 vo.setRequestId(requestIds.get(0));
             }
@@ -159,7 +159,7 @@ public class ResourceServerConfig {
 
             ResponseVo vo = ResponseVo.fail(ExceptionCode.PERMISSION_DENIED);
             List<String> requestIds = exchange.getRequest()
-                    .getHeaders().get(SimpleConstant.HEADER_REQUEST_ID_KEY);
+                    .getHeaders().get(SimpleConstant.HEADER_REQUEST_ID);
             if (requestIds != null && !requestIds.isEmpty()) {
                 vo.setRequestId(requestIds.get(0));
             }

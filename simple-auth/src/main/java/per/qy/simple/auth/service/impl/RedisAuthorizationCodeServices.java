@@ -1,8 +1,14 @@
 package per.qy.simple.auth.service.impl;
 
-import org.springframework.data.redis.core.RedisTemplate;
+import cn.hutool.core.util.IdUtil;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.codec.SerializationCodec;
+import org.redisson.config.Config;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.oauth2.provider.code.RandomValueAuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.stereotype.Component;
 import per.qy.simple.auth.constant.RedisKeyConstant;
 
@@ -15,26 +21,39 @@ import java.util.concurrent.TimeUnit;
  * @date : 2022/5/25
  */
 @Component
-public class RedisAuthorizationCodeServices extends RandomValueAuthorizationCodeServices {
+public class RedisAuthorizationCodeServices implements AuthorizationCodeServices {
 
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final RedissonClient redissonClient;
 
-    public RedisAuthorizationCodeServices(RedisTemplate<String, Object> redisTemplate) {
-        this.redisTemplate = redisTemplate;
+    /**
+     * 授权码有效期默认5分钟
+     */
+    @Value("${simple.auth.authorization-code.timeout:300}")
+    private long timeout;
+
+    public RedisAuthorizationCodeServices(RedissonClient redissonClient) {
+        // 新创建一个使用JDK序列化的客户端，OAuth2Authentication未提供无参构造方法无法json反序列化
+        Config config = redissonClient.getConfig();
+        config.setCodec(new SerializationCodec());
+        this.redissonClient = Redisson.create(config);
     }
 
     @Override
-    protected void store(String code, OAuth2Authentication authentication) {
-        // 授权码有效期5分钟
-        redisTemplate.opsForValue().set(RedisKeyConstant.AUTH_CODE_PRE + code,
-                authentication, 5L, TimeUnit.MINUTES);
+    public String createAuthorizationCode(OAuth2Authentication authentication) {
+        String code = IdUtil.fastSimpleUUID();
+        redissonClient.getBucket(RedisKeyConstant.AUTH_CODE_PRE + code)
+                .set(authentication, timeout, TimeUnit.SECONDS);
+        return code;
     }
 
     @Override
-    protected OAuth2Authentication remove(String code) {
+    public OAuth2Authentication consumeAuthorizationCode(String code) throws InvalidGrantException {
         String key = RedisKeyConstant.AUTH_CODE_PRE + code;
-        OAuth2Authentication authentication = (OAuth2Authentication) redisTemplate.opsForValue().get(key);
-        redisTemplate.delete(key);
+        OAuth2Authentication authentication = (OAuth2Authentication) redissonClient.getBucket(key).get();
+        redissonClient.getBucket(key).delete();
+        if (authentication == null) {
+            throw new InvalidGrantException("Invalid authorization code: " + code);
+        }
         return authentication;
     }
 }

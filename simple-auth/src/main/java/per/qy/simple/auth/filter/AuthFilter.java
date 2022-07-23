@@ -2,10 +2,11 @@ package per.qy.simple.auth.filter;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.json.JSONUtil;
+import org.slf4j.MDC;
 import org.springframework.http.MediaType;
 import per.qy.simple.auth.constant.AuthConstant;
 import per.qy.simple.auth.constant.AuthReqThreadLocal;
-import per.qy.simple.auth.model.AuthDto;
+import per.qy.simple.auth.model.dto.AuthDto;
 import per.qy.simple.auth.service.IAuthService;
 import per.qy.simple.common.base.constant.SimpleConstant;
 import per.qy.simple.common.base.model.ResponseVo;
@@ -47,6 +48,11 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         if (servletRequest instanceof HttpServletRequest) {
             HttpServletRequest request = (HttpServletRequest) servletRequest;
+
+            // springMVC 拦截器对 security oauth2 的端点不生效，这里额外设置日志打印requestId
+            String requestId = request.getHeader(SimpleConstant.HEADER_REQUEST_ID);
+            MDC.put(SimpleConstant.HEADER_REQUEST_ID, requestId);
+
             String grantType = request.getParameter("grant_type");
             if (request.getServletPath().contains(OAUTH_TOKEN_PATH) && AuthConstant.PWD_NAME.equals(grantType)) {
                 Map<String, String> params = request.getParameterMap().entrySet().stream()
@@ -61,7 +67,7 @@ public class AuthFilter implements Filter {
                 }
                 if (!vo.succeeded()) {
                     // 校验不通过
-                    vo.setRequestId(request.getHeader(SimpleConstant.HEADER_REQUEST_ID_KEY));
+                    vo.setRequestId(requestId);
                     HttpServletResponse response = (HttpServletResponse) servletResponse;
                     response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                     try (ServletOutputStream outputStream = response.getOutputStream()) {

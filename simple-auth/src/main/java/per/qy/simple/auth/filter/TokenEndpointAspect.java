@@ -42,7 +42,7 @@ public class TokenEndpointAspect {
         }
         HttpServletRequest request = RequestUtil.getRequest();
         if (request != null) {
-            vo.setRequestId(request.getHeader(SimpleConstant.HEADER_REQUEST_ID_KEY));
+            vo.setRequestId(request.getHeader(SimpleConstant.HEADER_REQUEST_ID));
         }
         return ResponseEntity.ok(vo);
     }

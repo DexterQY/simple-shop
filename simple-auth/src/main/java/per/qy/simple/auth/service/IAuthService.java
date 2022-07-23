@@ -5,10 +5,10 @@ import cn.hutool.core.collection.CollUtil;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import per.qy.simple.auth.constant.AuthConstant;
-import per.qy.simple.auth.model.AuthDto;
 import per.qy.simple.auth.model.AuthUserDetails;
+import per.qy.simple.auth.model.dto.AuthDto;
 import per.qy.simple.common.base.model.ResponseVo;
-import per.qy.simple.common.base.model.UserDto;
+import per.qy.simple.user.model.vo.UserVo;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -54,14 +54,14 @@ public interface IAuthService {
     /**
      * 获取用户信息
      *
-     * @param userDto userDto
+     * @param userVo userVo
      * @return UserDetails
      */
-    default AuthUserDetails getUserDetails(UserDto userDto) {
+    default AuthUserDetails getUserDetails(UserVo userVo) {
         AuthUserDetails userDetails = new AuthUserDetails();
-        BeanUtil.copyProperties(userDto, userDetails);
-        if (CollUtil.isNotEmpty(userDto.getRoleCodes())) {
-            List<SimpleGrantedAuthority> authorities = userDto.getRoleCodes().stream()
+        BeanUtil.copyProperties(userVo, userDetails);
+        if (CollUtil.isNotEmpty(userVo.getRoleCodes())) {
+            List<SimpleGrantedAuthority> authorities = userVo.getRoleCodes().stream()
                     .map(SimpleGrantedAuthority::new).collect(Collectors.toList());
             userDetails.setAuthorities(authorities);
         }

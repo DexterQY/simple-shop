@@ -1,0 +1,13 @@
+gateway:
+  route:
+    dynamic: true
+
+simple:
+  security:
+    denyPaths:
+      - "/*/actuator/**"
+      - "/*/micro/**"
+    ignoreAuthPaths:
+      - "/actuator/**"
+      - "/simple-auth/oauth/token"
+      - "/*/open/**"

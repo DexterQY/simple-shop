@@ -1,0 +1,13 @@
+routes:
+  - id: simple-auth
+    uri: lb://simple-auth
+    predicates:
+      - Path=/simple-auth/**
+    filters:
+      - StripPrefix=1
+  - id: simple-user
+    uri: lb://simple-user
+    predicates:
+      - Path=/simple-user/**
+    filters:
+      - StripPrefix=1

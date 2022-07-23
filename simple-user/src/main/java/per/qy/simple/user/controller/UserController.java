@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import per.qy.simple.user.model.UserVo;
+import per.qy.simple.user.model.vo.CurrentUserVo;
 import per.qy.simple.user.service.UserService;
 
 /**
@@ -21,7 +21,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/current")
-    public UserVo getCurrentUser() {
+    public CurrentUserVo getCurrentUser() {
         return userService.getCurrentUser();
     }
 }

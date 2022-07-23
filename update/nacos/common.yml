@@ -1,0 +1,17 @@
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  configuration:
+    # 下划线转驼峰配置
+    map-underscore-to-camel-case: true
+    # 启用懒加载
+    lazy-loading-enabled: true
+
+# 开放所有监控端点可访问
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always

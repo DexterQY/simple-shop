@@ -1,6 +1,6 @@
 package per.qy.simple.auth.constant;
 
-import per.qy.simple.auth.model.AuthDto;
+import per.qy.simple.auth.model.dto.AuthDto;
 
 /**
  * 认证参数ThreadLocal

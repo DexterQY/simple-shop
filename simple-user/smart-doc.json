@@ -1,0 +1,7 @@
+{
+  "outPath": "target/doc",
+  "allInOne": true,
+  "responseBodyAdvice":{
+    "className":"per.qy.simple.common.base.model.ResponseVo"
+  }
+}

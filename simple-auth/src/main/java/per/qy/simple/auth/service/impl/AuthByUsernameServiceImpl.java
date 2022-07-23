@@ -8,13 +8,13 @@ import org.springframework.stereotype.Service;
 import per.qy.simple.auth.constant.AuthReqThreadLocal;
 import per.qy.simple.auth.constant.AuthTypeEnum;
 import per.qy.simple.auth.constant.RedisKeyConstant;
-import per.qy.simple.auth.feign.UserMicroClient;
-import per.qy.simple.auth.model.AuthDto;
+import per.qy.simple.auth.model.dto.AuthDto;
 import per.qy.simple.auth.service.IAuthService;
 import per.qy.simple.common.base.exception.BusinessException;
 import per.qy.simple.common.base.exception.ExceptionCode;
 import per.qy.simple.common.base.model.ResponseVo;
-import per.qy.simple.common.base.model.UserDto;
+import per.qy.simple.user.client.UserMicroClient;
+import per.qy.simple.user.model.vo.UserVo;
 
 /**
  * 用户名密码认证
@@ -51,11 +51,11 @@ public class AuthByUsernameServiceImpl implements IAuthService {
     @Override
     public UserDetails auth() {
         AuthDto authDto = AuthReqThreadLocal.get();
-        UserDto userDto = userMicroClient.getByUsername(authDto.getUsername());
-        if (userDto == null) {
+        UserVo userVo = userMicroClient.getByUsername(authDto.getUsername());
+        if (userVo == null) {
             throw new BusinessException(ExceptionCode.UNAUTHORIZED, "用户名或密码错误");
         }
-        return getUserDetails(userDto);
+        return getUserDetails(userVo);
     }
 
     @Override

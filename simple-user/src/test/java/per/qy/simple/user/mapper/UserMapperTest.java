@@ -6,7 +6,7 @@ import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import per.qy.simple.user.entity.User;
+import per.qy.simple.user.model.entity.User;
 
 /**
  * @author : QY

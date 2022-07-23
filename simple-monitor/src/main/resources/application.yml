@@ -1,9 +1,3 @@
-spring:
-  security:
-    user:
-      name: admin
-      password: 123456
-
 # 开放所有监控端点可访问
 management:
   endpoints:

@@ -4,7 +4,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import per.qy.simple.user.entity.RolePermission;
+import per.qy.simple.user.model.entity.RolePermission;
 
 /**
  * @author : QY

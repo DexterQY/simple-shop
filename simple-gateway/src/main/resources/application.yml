@@ -5,13 +5,3 @@ spring:
         locator:
           enabled: true # 启用服务发现
           lower-case-service-id: true #使用小写service-id，避免服务发现中间件自动大写
-
-# 开放所有监控端点可访问
-management:
-  endpoints:
-    web:
-      exposure:
-        include: '*'
-  endpoint:
-    health:
-      show-details: always

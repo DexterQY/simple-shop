@@ -9,11 +9,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import per.qy.simple.auth.constant.AuthReqThreadLocal;
-import per.qy.simple.auth.feign.UserMicroClient;
-import per.qy.simple.auth.model.AuthDto;
 import per.qy.simple.auth.model.AuthUserDetails;
+import per.qy.simple.auth.model.dto.AuthDto;
 import per.qy.simple.auth.service.IAuthService;
-import per.qy.simple.common.base.model.UserDto;
+import per.qy.simple.user.client.UserMicroClient;
+import per.qy.simple.user.model.vo.UserVo;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,11 +40,11 @@ public class UserDetailServiceImpl implements UserDetailsService {
             return auth(req);
         }
         // 否则为refresh_token模式认证
-        UserDto userDto = userMicroClient.getByUsername(username);
+        UserVo userVo = userMicroClient.getByUsername(username);
         AuthUserDetails userDetails = new AuthUserDetails();
-        BeanUtil.copyProperties(userDto, userDetails);
-        if (CollUtil.isNotEmpty(userDto.getRoleCodes())) {
-            List<SimpleGrantedAuthority> authorities = userDto.getRoleCodes().stream()
+        BeanUtil.copyProperties(userVo, userDetails);
+        if (CollUtil.isNotEmpty(userVo.getRoleCodes())) {
+            List<SimpleGrantedAuthority> authorities = userVo.getRoleCodes().stream()
                     .map(SimpleGrantedAuthority::new).collect(Collectors.toList());
             userDetails.setAuthorities(authorities);
         }

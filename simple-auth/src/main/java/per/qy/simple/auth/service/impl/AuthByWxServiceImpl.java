@@ -6,13 +6,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import per.qy.simple.auth.constant.AuthReqThreadLocal;
 import per.qy.simple.auth.constant.AuthTypeEnum;
-import per.qy.simple.auth.feign.UserMicroClient;
-import per.qy.simple.auth.model.AuthDto;
+import per.qy.simple.auth.model.dto.AuthDto;
 import per.qy.simple.auth.service.IAuthService;
 import per.qy.simple.common.base.exception.BusinessException;
 import per.qy.simple.common.base.exception.ExceptionCode;
 import per.qy.simple.common.base.model.ResponseVo;
-import per.qy.simple.common.base.model.UserDto;
+import per.qy.simple.user.client.UserMicroClient;
+import per.qy.simple.user.model.vo.UserVo;
 
 /**
  * 微信认证
@@ -39,11 +39,11 @@ public class AuthByWxServiceImpl implements IAuthService {
         AuthDto authDto = AuthReqThreadLocal.get();
         // todo 微信code换token，获取用户openId
         String openId = authDto.getCode();
-        UserDto userDto = userMicroClient.getByWxOpenId(openId);
-        if (userDto == null) {
+        UserVo userVo = userMicroClient.getByWxOpenId(openId);
+        if (userVo == null) {
             throw new BusinessException(ExceptionCode.UNAUTHORIZED, "用户不存在");
         }
-        return getUserDetails(userDto);
+        return getUserDetails(userVo);
     }
 
     @Override

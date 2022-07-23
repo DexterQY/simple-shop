@@ -7,7 +7,7 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.NoSuchClientException;
 import org.springframework.security.oauth2.provider.client.BaseClientDetails;
 import org.springframework.stereotype.Component;
-import per.qy.simple.auth.config.AuthClientsConfig;
+import per.qy.simple.auth.config.AuthConfig;
 
 import java.util.Map;
 
@@ -21,11 +21,11 @@ import java.util.Map;
 public class ConfigClientDetailsServiceImpl implements ClientDetailsService {
 
     @Autowired
-    private AuthClientsConfig authClientsConfig;
+    private AuthConfig authConfig;
 
     @Override
     public ClientDetails loadClientByClientId(String clientId) {
-        Map<String, BaseClientDetails> clients = authClientsConfig.getClients();
+        Map<String, BaseClientDetails> clients = authConfig.getClients();
         if (CollUtil.isNotEmpty(clients)) {
             BaseClientDetails details = clients.get(clientId);
             if (details != null) {

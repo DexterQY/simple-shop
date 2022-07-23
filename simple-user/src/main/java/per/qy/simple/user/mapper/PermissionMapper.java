@@ -1,8 +1,8 @@
 package per.qy.simple.user.mapper;
 
 import org.apache.ibatis.annotations.Param;
-import per.qy.simple.user.entity.Permission;
-import per.qy.simple.user.model.RolePermissionDto;
+import per.qy.simple.user.model.entity.Permission;
+import per.qy.simple.user.model.dto.RolePermissionDto;
 
 import java.util.List;
 

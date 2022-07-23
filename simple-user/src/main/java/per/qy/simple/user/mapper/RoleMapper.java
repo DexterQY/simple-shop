@@ -1,7 +1,7 @@
 package per.qy.simple.user.mapper;
 
 import org.apache.ibatis.annotations.Param;
-import per.qy.simple.user.entity.Role;
+import per.qy.simple.user.model.entity.Role;
 
 import java.util.Collection;
 import java.util.List;

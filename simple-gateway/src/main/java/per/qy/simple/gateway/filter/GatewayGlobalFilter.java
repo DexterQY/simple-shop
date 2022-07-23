@@ -32,20 +32,20 @@ public class GatewayGlobalFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         // 请求头设置requestId
         String requestId;
-        List<String> requestIds = request.getHeaders().get(SimpleConstant.HEADER_REQUEST_ID_KEY);
+        List<String> requestIds = request.getHeaders().get(SimpleConstant.HEADER_REQUEST_ID);
         if (requestIds == null || requestIds.size() != 1) {
             requestId = IdUtil.fastSimpleUUID();
             request = request.mutate()
-                    .header(SimpleConstant.HEADER_REQUEST_ID_KEY, requestId).build();
+                    .header(SimpleConstant.HEADER_REQUEST_ID, requestId).build();
             exchange = exchange.mutate().request(request).build();
         } else {
             requestId = requestIds.get(0);
         }
-        MDC.put(SimpleConstant.HEADER_REQUEST_ID_KEY, requestId);
+        MDC.put(SimpleConstant.HEADER_REQUEST_ID, requestId);
 
         Route route = exchange.getAttribute(ServerWebExchangeUtils.GATEWAY_ROUTE_ATTR);
-        log.info("remote={},local={},route={}", request.getRemoteAddress(),
-                request.getLocalAddress(), route);
+        log.info("remote={},path={},route={}", request.getRemoteAddress(),
+                request.getPath().value(), route);
 
         return chain.filter(exchange);
     }

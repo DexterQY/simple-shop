@@ -6,11 +6,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import per.qy.simple.common.base.constant.SimpleConstant;
 import per.qy.simple.user.mapper.PermissionMapper;
-import per.qy.simple.user.model.RolePermissionDto;
+import per.qy.simple.user.model.dto.RolePermissionDto;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -33,26 +31,14 @@ public class PermissionService {
     public void initRoleMatchPaths() {
         List<RolePermissionDto> dtos = permissionMapper.listJoinRole();
         if (CollUtil.isEmpty(dtos)) {
-            redisTemplate.delete(SimpleConstant.REDIS_ROLE_PERMISSION_KEY);
+            redisTemplate.delete(SimpleConstant.REDIS_ROLE_PERMISSION);
             return;
         }
 
-        Map<String, List<String>> roleMatchPaths =
-                dtos.stream().collect(Collectors.toMap(RolePermissionDto::getRoleCode, v -> {
-                    List<String> paths;
-                    if (v.getPermissionMatchPath() != null) {
-                        String[] pathArr = v.getPermissionMatchPath().split(",");
-                        paths = Arrays.asList(pathArr);
-                    } else {
-                        paths = new ArrayList<>();
-                    }
-                    return paths;
-                }, (oldValue, newValue) -> {
-                    oldValue.addAll(newValue);
-                    return oldValue;
-                }));
+        Map<String, List<String>> roleMatchPaths = dtos.stream().collect(Collectors.groupingBy(RolePermissionDto::getRoleCode,
+                Collectors.mapping(RolePermissionDto::getPermissionMatchPath, Collectors.toList())));
 
-        redisTemplate.delete(SimpleConstant.REDIS_ROLE_PERMISSION_KEY);
-        redisTemplate.opsForHash().putAll(SimpleConstant.REDIS_ROLE_PERMISSION_KEY, roleMatchPaths);
+        redisTemplate.delete(SimpleConstant.REDIS_ROLE_PERMISSION);
+        redisTemplate.opsForHash().putAll(SimpleConstant.REDIS_ROLE_PERMISSION, roleMatchPaths);
     }
 }

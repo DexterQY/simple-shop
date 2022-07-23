@@ -1,0 +1,11 @@
+simple:
+  auth:
+    clients:
+      web:
+        client_id: web
+        client_secret: $2a$10$L4/T6GUVhAMEGF3NkdVR1.oLDQlek5TOQT4vZqiXONYe1VfkRldAa
+        scope: all
+        authorized_grant_types: authorization_code,password,refresh_token,client_credentials
+        access_token_validity: 3600
+        refresh_token_validity: 7200
+        autoapprove: true

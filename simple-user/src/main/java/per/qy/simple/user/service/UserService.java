@@ -4,16 +4,17 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import per.qy.simple.common.base.model.UserDto;
+import per.qy.simple.common.base.model.CurrentUser;
 import per.qy.simple.common.core.util.RequestUtil;
-import per.qy.simple.user.entity.RolePermission;
-import per.qy.simple.user.entity.User;
-import per.qy.simple.user.entity.UserRole;
 import per.qy.simple.user.mapper.RoleMapper;
 import per.qy.simple.user.mapper.RolePermissionMapper;
 import per.qy.simple.user.mapper.UserMapper;
 import per.qy.simple.user.mapper.UserRoleMapper;
-import per.qy.simple.user.model.UserVo;
+import per.qy.simple.user.model.entity.RolePermission;
+import per.qy.simple.user.model.entity.User;
+import per.qy.simple.user.model.entity.UserRole;
+import per.qy.simple.user.model.vo.CurrentUserVo;
+import per.qy.simple.user.model.vo.UserVo;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,45 +37,45 @@ public class UserService {
     @Autowired
     private RolePermissionMapper rolePermissionMapper;
 
-    public UserDto getByUsername(String username) {
+    public UserVo getByUsername(String username) {
         User user = userMapper.getByUsername(username);
-        return getUserDtoFromUser(user);
+        return getUserVoFromUser(user);
     }
 
-    public UserDto getByPhone(String phone) {
+    public UserVo getByPhone(String phone) {
         User user = userMapper.getByPhone(phone);
-        return getUserDtoFromUser(user);
+        return getUserVoFromUser(user);
     }
 
-    public UserDto getByEmail(String email) {
+    public UserVo getByEmail(String email) {
         User user = userMapper.getByEmail(email);
-        return getUserDtoFromUser(user);
+        return getUserVoFromUser(user);
     }
 
-    public UserDto getByWxOpenId(String wxOpenId) {
+    public UserVo getByWxOpenId(String wxOpenId) {
         User user = userMapper.getByWxOpenId(wxOpenId);
-        return getUserDtoFromUser(user);
+        return getUserVoFromUser(user);
     }
 
-    private UserDto getUserDtoFromUser(User user) {
+    private UserVo getUserVoFromUser(User user) {
         if (user == null) {
             return null;
         }
-        UserDto dto = new UserDto();
-        BeanUtil.copyProperties(user, dto);
+        UserVo vo = new UserVo();
+        BeanUtil.copyProperties(user, vo);
         // 查询关联角色
         List<UserRole> userRoles = userRoleMapper.listByUserId(user.getId());
         if (CollUtil.isNotEmpty(userRoles)) {
             List<String> roleCodes = userRoles.stream()
                     .map(UserRole::getRoleCode).collect(Collectors.toList());
-            dto.setRoleCodes(roleCodes);
+            vo.setRoleCodes(roleCodes);
         }
-        return dto;
+        return vo;
     }
 
-    public UserVo getCurrentUser() {
-        UserDto user = RequestUtil.getCurrentUser();
-        UserVo vo = new UserVo();
+    public CurrentUserVo getCurrentUser() {
+        CurrentUser user = RequestUtil.getCurrentUser();
+        CurrentUserVo vo = new CurrentUserVo();
         BeanUtil.copyProperties(user, vo);
         if (CollUtil.isNotEmpty(vo.getRoleCodes())) {
             List<Long> roleIds = roleMapper.listIdByCodeIn(vo.getRoleCodes());
