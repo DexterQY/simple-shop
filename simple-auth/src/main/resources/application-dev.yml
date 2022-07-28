@@ -1,5 +1,6 @@
 simple:
   auth:
+    tokenMode: jwt
     clients:
       web:
         client_id: web

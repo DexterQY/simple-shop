@@ -3,6 +3,8 @@ gateway:
     dynamic: true
 
 simple:
+  auth:
+    tokenMode: jwt
   security:
     denyPaths:
       - "/*/actuator/**"

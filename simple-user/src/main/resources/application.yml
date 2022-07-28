@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mariadb://${simple.datasource.ip}:${simple.datasource.port}/${simple.datasource.database}?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
-    username: ${simple.datasource.username}
-    password: ${simple.datasource.password}
+    url: jdbc:mariadb://${project.datasource.ip}:${project.datasource.port}/${project.datasource.database:simple_user}?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai
+    username: ${project.datasource.username}
+    password: ${project.datasource.password}
     driver-class-name: org.mariadb.jdbc.Driver

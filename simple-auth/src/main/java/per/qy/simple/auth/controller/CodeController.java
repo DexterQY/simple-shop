@@ -1,5 +1,6 @@
 package per.qy.simple.auth.controller;
 
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.base.Captcha;
@@ -14,7 +15,6 @@ import per.qy.simple.auth.model.vo.CaptchaVo;
 
 import java.awt.FontFormatException;
 import java.io.IOException;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -37,7 +37,7 @@ public class CodeController {
         SpecCaptcha captcha = new SpecCaptcha(88, 38, 4);
         captcha.setCharType(Captcha.TYPE_ONLY_NUMBER);
         captcha.setFont(Captcha.FONT_1);
-        String key = UUID.randomUUID().toString();
+        String key = IdUtil.fastSimpleUUID();
         redisTemplate.opsForValue().set(RedisKeyConstant.CAPTCHA_KEY_PRE + key, captcha.text(),
                 codeTimeout, TimeUnit.SECONDS);
         return new CaptchaVo(key, captcha.toBase64());

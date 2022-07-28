@@ -28,7 +28,7 @@ import per.qy.simple.common.base.constant.SimpleConstant;
 import per.qy.simple.common.base.exception.ExceptionCode;
 import per.qy.simple.common.base.model.ResponseVo;
 import per.qy.simple.gateway.manager.AuthorizationManager;
-import per.qy.simple.gateway.manager.RedisAuthenticationManager;
+import per.qy.simple.gateway.manager.AuthenticationManager;
 import reactor.core.publisher.Mono;
 
 import java.net.URLEncoder;
@@ -50,7 +50,7 @@ public class ResourceServerConfig {
     @Autowired
     private AuthorizationManager authorizationManager;
     @Autowired
-    private RedisAuthenticationManager reactiveAuthenticationManager;
+    private AuthenticationManager reactiveAuthenticationManager;
 
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
