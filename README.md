@@ -28,6 +28,9 @@ simple-platform
 | Spring Cloud           | 微服务框架           | https://spring.io/projects/spring-cloud              |
 | Spring Cloud Alibaba   | 微服务框架           | https://github.com/alibaba/spring-cloud-alibaba      |
 | Spring Cloud Gateway   | 微服务网关           | https://spring.io/projects/spring-cloud-gateway      |
+| Spring Cloud OpenFeign | 服务远程调用         | https://spring.io/projects/spring-cloud-openfeign    |
+| Spring Cloud LoadBalancer | 服务负载均衡         | https://spring.io/guides/gs/spring-cloud-loadbalancer |
+| Resilience4j           | 断路器              | https://resilience4j.readme.io/                      |
 | Spring Boot            | IOC+AOP+MVC框架     | https://spring.io/projects/spring-boot               |
 | Spring Security OAuth2 | 认证授权框架         | https://spring.io/projects/spring-security-oauth     |
 | MyBatis                | ORM框架             | http://www.mybatis.org/mybatis-3/zh/index.html       |
@@ -36,6 +39,8 @@ simple-platform
 | Caffeine               | 本地缓存             | https://github.com/ben-manes/caffeine                |
 | Spring Boot Admin      | 服务监控             | https://github.com/codecentric/spring-boot-admin     |
 | Smart-Doc              | 接口文档生成工具      | https://smart-doc-group.github.io/#/zh-cn/           |
+| Nacos                  | 服务注册和配置中心    | https://nacos.io/zh-cn/                               |
+| Sentinel               | 网关流控降级         | https://github.com/alibaba/Sentinel/                  |
 | MySQL                  | 数据库              | https://www.mysql.com/                                |
 | Redis                  | 分布式缓存           | https://redis.io/                                    |
 | RabbitMQ               | 消息队列             | https://www.rabbitmq.com/                            |

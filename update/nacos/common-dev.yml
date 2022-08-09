@@ -16,6 +16,10 @@ spring:
         nettyThreads: 0
         transportMode: "NIO"
 
+feign:
+  circuitbreaker:
+    enabled: true
+
 logging:
   level:
     per:

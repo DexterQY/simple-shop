@@ -3,6 +3,7 @@ package per.qy.simple.user.client;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import per.qy.simple.user.fallback.UserMicroClientFallbackFactory;
 import per.qy.simple.user.model.vo.UserVo;
 
 /**
@@ -11,7 +12,7 @@ import per.qy.simple.user.model.vo.UserVo;
  * @author : QY
  * @date : 2022/5/27
  */
-@FeignClient(value = "simple-user", path = "/micro/user")
+@FeignClient(value = "simple-user", path = "/micro/user", fallbackFactory = UserMicroClientFallbackFactory.class)
 public interface UserMicroClient {
 
     @GetMapping("/getByUsername")
