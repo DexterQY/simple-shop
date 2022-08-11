@@ -37,6 +37,7 @@ simple-platform
 | Redisson               | Redis客户端         | https://github.com/redisson/redisson                 |
 | Hutool                 | 工具类库             | https://hutool.cn/docs                               |
 | Caffeine               | 本地缓存             | https://github.com/ben-manes/caffeine                |
+| Mockito                | 单元测试Mock框架     | https://site.mockito.org/                            |
 | Spring Boot Admin      | 服务监控             | https://github.com/codecentric/spring-boot-admin     |
 | Smart-Doc              | 接口文档生成工具      | https://smart-doc-group.github.io/#/zh-cn/           |
 | Nacos                  | 服务注册和配置中心    | https://nacos.io/zh-cn/                               |
