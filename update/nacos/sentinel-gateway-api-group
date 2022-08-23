@@ -1,0 +1,10 @@
+[
+    {
+        "apiName": "auth-captcha",
+        "predicateItems": [
+            {
+                "pattern": "/simple-auth/open/captcha"
+            }
+        ]
+    }
+]

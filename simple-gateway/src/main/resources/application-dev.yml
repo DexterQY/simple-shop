@@ -15,6 +15,23 @@ spring:
           response-status: 200
           # 响应体
           response-body: '{"code": 9999,"message": "请求频繁，请稍后重试！"}'
+      datasource:
+        flow‐rules:
+          nacos:
+            serverAddr: 127.0.0.1:8848
+            dataId: sentinel-gateway-flow-rules
+            groupId: DEFAULT_GROUP
+            namespace: simple-cloud
+            dataType: json
+            ruleType: gw-flow
+        api-group:
+          nacos:
+            serverAddr: 127.0.0.1:8848
+            dataId: sentinel-gateway-api-group
+            groupId: DEFAULT_GROUP
+            namespace: simple-cloud
+            dataType: json
+            ruleType: gw-api-group
 
 gateway:
   route:
@@ -22,7 +39,7 @@ gateway:
 
 simple:
   auth:
-    tokenMode: jwt
+    tokenMode: redis
   security:
     denyPaths:
       - "/*/actuator/**"
